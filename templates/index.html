@@ -15,26 +15,26 @@
 					<br>
 					<br>
 					<h1 class="mb-2">
-						This is the title 
+						IMDB Dashboard 
 					</h1>
 					<h3>
-						Reported Period: insert the data period here
+						Reported Period: 2019
 					</h3>
 					<br>
 				</div>
 			</div>
 		<div class="row">
 			<div class="col-md-4 col-lg-4 col-sm-4">
-				<div class="card card-stats">
+				<div class="card card-stats" style="background-color: aqua;">
 					<div class="card-header">
 						<div class="card-icon">
 							<i></i>
 						</div>
 						<h2 class="card-title">
-							{{ df }}
+							{{ card_data }}
 						</h2>
 						<h4 class="card-category">
-							Mean Rate
+							Mean of IMDB Score
 						</h4>
 					</div>
 				</div>
@@ -55,7 +55,7 @@
 				<!-- Tab content -->
 				<div id="profile" class="tabcontent">
 					<br>
-					<h3 style="color: #333333;text-align:center">plot title here</h3>
+					<h3 style="color: #333333;text-align:center">IMDB Score Distribution</h3>
 					<div class="img-container"">
 						{% if funded_plot != None %}
 					  <img src="data:image/png;base64,{{ plot_result }}" >

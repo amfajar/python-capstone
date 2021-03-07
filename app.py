@@ -21,6 +21,7 @@ movie_containers = soup.find_all('div', class_ = 'lister-item mode-advanced')
 names = []
 years = []
 imdb_ratings = []
+metascores = []
 votes = []
 genres = []
 durations = []
@@ -28,7 +29,7 @@ durations = []
 # Extract data from individual movie container
 for container in movie_containers:
 # If the movie has Metascore, then extract:
-    if container.find('div') is not None:
+    if container.find('div', class_ = 'ratings-metascore') is not None:
 
         # The name
         name = container.h3.a.text
@@ -53,6 +54,10 @@ for container in movie_containers:
         # The number of votes
         vote = container.find('span', attrs = {'name':'nv'})['data-value']
         votes.append(int(vote))
+        
+        # The Metascore
+        m_score = container.find('span', class_ = 'metascore').text
+        metascores.append(int(m_score))
 
 #change into dataframe
 df = pd.DataFrame({'movie': names,
@@ -60,6 +65,7 @@ df = pd.DataFrame({'movie': names,
 'genre': genres,
 'year': years,
 'imdb': imdb_ratings,
+'metascore': metascores,
 'votes': votes
 })
 
@@ -77,10 +83,10 @@ df['genre'] = df['genre'].str.replace("\n", "")
 @app.route("/")
 def index(): 
 	
-	card_data = f'imdb {df["votes"].mean().round(2)}'
+	card_data = df["imdb"].mean().round(2)
 
 	# generate plot
-	ax = df.plot(figsize = (20,9))
+	ax = df['imdb'].plot.hist(figsize = (16,9))
 	
 	# Rendering plot
 	# Do not change this
@@ -89,6 +95,8 @@ def index():
 	figfile.seek(0)
 	figdata_png = base64.b64encode(figfile.getvalue())
 	plot_result = str(figdata_png)[2:-1]
+
+
 
 
 	# render to html
